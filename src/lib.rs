@@ -252,7 +252,7 @@ impl Toasts {
             let (caption_width, caption_height) =
                 (caption_galley.rect.width(), caption_galley.rect.height());
 
-            let line_count = toast.caption.text().chars().filter(|c| *c == '\n').count() + 1;
+            let line_count = caption_galley.rows.len().max(1);
             let icon_width = caption_height / line_count as f32;
             let rounding = CornerRadius::same(4);
 
