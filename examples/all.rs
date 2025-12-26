@@ -121,6 +121,16 @@ impl App for ExampleApp {
                         self.custom_level_color,
                     ));
                 }
+
+                if ui
+                    .button("Galley")
+                    .on_hover_text("This toast prints a Galley with a very small wrap_width")
+                    .clicked()
+                {
+                    customize_toast(self.toasts.info(ui.fonts_mut(|fonts| {
+                        fonts.layout(self.caption.clone(), Default::default(), Color32::RED, 30.0)
+                    })));
+                }
             });
 
             ui.separator();
