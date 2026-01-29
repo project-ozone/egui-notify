@@ -223,7 +223,7 @@ impl Toast {
 
     pub(crate) fn calc_anchored_rect(&self, pos: Pos2, anchor: Anchor) -> Rect {
         match anchor {
-            Anchor::TopRight => Rect {
+            Anchor::TopRightWithOffset(_) | Anchor::TopRight => Rect {
                 min: pos2(pos.x - self.width, pos.y),
                 max: pos2(pos.x, pos.y + self.height),
             },
@@ -244,7 +244,7 @@ impl Toast {
 
     pub(crate) fn adjust_next_pos(&self, pos: &mut Pos2, anchor: Anchor, spacing: f32) {
         match anchor {
-            Anchor::TopRight | Anchor::TopLeft => pos.y += self.height + spacing,
+            Anchor::TopRightWithOffset(_) | Anchor::TopRight | Anchor::TopLeft => pos.y += self.height + spacing,
             Anchor::BottomRight | Anchor::BottomLeft => pos.y -= self.height + spacing,
         }
     }

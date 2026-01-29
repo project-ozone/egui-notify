@@ -68,6 +68,22 @@ impl Toasts {
         }
     }
 
+    /// Creates new [` Toasts `] instance with vertical offset.
+    pub const fn offset(offset: u8) -> Self {
+        Self {
+            anchor: Anchor::TopRightWithOffset(offset),
+            margin: vec2(8., 8.),
+            toasts: vec![],
+            spacing: 8.,
+            padding: vec2(10., 10.),
+            held: false,
+            speed: 4.,
+            reverse: false,
+            font: None,
+            shadow: None,
+        }
+    }
+
     /// Adds new toast to the collection.
     /// By default adds toast at the end of the list, can be changed with `self.reverse`.
     #[allow(clippy::unwrap_used)] // We know that the index is valid
@@ -337,7 +353,7 @@ impl Toasts {
             }
 
             // Draw background
-            p.rect_filled(rect, rounding, visuals.bg_fill);
+            p.rect_filled(rect, rounding, ctx.style().visuals.faint_bg_color);
 
             // Paint icon
             if let Some((icon_galley, true)) =

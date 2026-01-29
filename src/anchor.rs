@@ -3,6 +3,8 @@ use egui::{pos2, Pos2, Vec2};
 /// Anchor where to show toasts
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Anchor {
+    /// Top right corner with vertical offset.
+    TopRightWithOffset(u8),
     /// Top right corner.
     TopRight,
     /// Top left corner.
@@ -17,7 +19,7 @@ impl Anchor {
     #[inline]
     pub(crate) const fn anim_side(&self) -> f32 {
         match self {
-            Self::TopRight | Self::BottomRight => 1.,
+            Self::TopRightWithOffset(_) | Self::TopRight | Self::BottomRight => 1.,
             Self::TopLeft | Self::BottomLeft => -1.,
         }
     }
@@ -26,6 +28,7 @@ impl Anchor {
 impl Anchor {
     pub(crate) fn screen_corner(&self, sc: Pos2, margin: Vec2) -> Pos2 {
         let mut out = match self {
+            Self::TopRightWithOffset(offset) => pos2(sc.x, *offset as f32),
             Self::TopRight => pos2(sc.x, 0.),
             Self::TopLeft => pos2(0., 0.),
             Self::BottomRight => sc,
@@ -37,7 +40,7 @@ impl Anchor {
 
     pub(crate) fn apply_margin(&self, pos: &mut Pos2, margin: Vec2) {
         match self {
-            Self::TopRight => {
+            Self::TopRightWithOffset(_) | Self::TopRight => {
                 pos.x -= margin.x;
                 pos.y += margin.y;
             }
